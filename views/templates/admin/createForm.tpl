@@ -1,0 +1,440 @@
+{**
+* 2007-2016 PrestaShop
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Open Software License (OSL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/osl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@buy-addons.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+* versions in the future. If you wish to customize PrestaShop for your
+* needs please refer to http://www.prestashop.com for more information.
+*
+*  @author Buy-Addons <hatt@buy-addons.com>
+*  @copyleft  2007-2016 PrestaShop SA
+*  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*  International Registered Trademark & Property of PrestaShop SA
+*}
+<form id="configuration_form" class="defaultForm  form-horizontal" method="post" enctype="multipart/form-data">
+    <div class="panel" id="fieldset_0">
+        <h3>{l s='Unlimited Product Tab' mod='unlimitedproducttab'}</h3>
+		<div class="form-group ">
+			<label class="control-label col-lg-3 required">{l s='Tab Title' mod='unlimitedproducttab'}:</label>
+			<div class="col-lg-9 " style="width: 50%;">
+                <div class="lang {$iso_default_language|escape:'htmlall':'UTF-8'}" data-iso-default="{$iso_default_language|escape:'htmlall':'UTF-8'}">
+                   {foreach from=$arr_language key =key_lang item=language}
+                        <div class="language_{$language.iso_code|escape:'htmlall':'UTF-8'} iso_code" data-iso="{$language.iso_code|escape:'htmlall':'UTF-8'}" style="display:{if $id_default_language == $language.id_lang}block;{else}none;{/if}" >
+                            <input type="text" name="tab_title_{$language.iso_code|escape:'htmlall':'UTF-8'}" id="tab_title_{$language.iso_code|escape:'htmlall':'UTF-8'}" value="" style="width:100%;">
+                        </div>
+                   {/foreach}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="col-lg-1">
+                    <button type="button" class="btn btn-default dropdown-toggle language_view iso_code_now" data-toggle="dropdown" tabindex="-1" data-iso-choose="{$iso_default_language|escape:'htmlall':'UTF-8'}" >
+                        {$iso_default_language|escape:'htmlall':'UTF-8'}
+                        <span class="caret"></span>
+                    </button>
+					<ul class="dropdown-menu">
+                        {foreach from=$arr_language key=key_lang item=language}
+                            <li>
+                                <a  href="javascript:void(0);" onclick="baHideOtherLanguage('{$language.id_lang|escape:'htmlall':'UTF-8'}','{$language.iso_code|escape:'htmlall':'UTF-8'}')">{$language.name|escape:'htmlall':'UTF-8'}</a>
+                            </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+		</div>
+        <div class="form-group ">
+            <label  class="control-label col-lg-3 ">{l s='Type:' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9">
+                <select onchange="changeediter(this.value)" style="width:100px; float:left;" class="selecttype" name="selecttype" >
+                    <option value="editor" selected="selected" >{l s='Editor' mod='unlimitedproducttab'}</option>
+                    <option value="youtube" >{l s='Youtube' mod='unlimitedproducttab'}</option>
+                    <option value="maps">{l s='Google Maps' mod='unlimitedproducttab'}</option>
+                    <option value="vimeo">{l s='Vimeo' mod='unlimitedproducttab'}</option>
+                    <option value="description">{l s='Product Description' mod='unlimitedproducttab'}</option>
+                    <option value="datasheet">{l s='Product Datasheet' mod='unlimitedproducttab'}</option>
+                    <option value="tag">{l s='Product Tag' mod='unlimitedproducttab'}</option>
+                    <option value="review">{l s='Product Review' mod='unlimitedproducttab'}</option>
+                    <option value="product">{l s=' Product' mod='unlimitedproducttab'}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="control-label col-lg-3">{l s='Tab Position' mod='unlimitedproducttab'}:</label>
+            <div class="col-lg-9">
+                <input type="text" name="tabposition" id="tabposition" value=""  style="width:105px;">
+            </div>
+            {*<label class="control-label col-lg-3 ">{l s=' ' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9 " style = "float: left;"><p class="help-block">{l s='Input tab position' mod='unlimitedproducttab'}</p></div>*}
+        </div>
+        <div class="form-group">        
+            <label class="control-label col-lg-3">{l s='Status:' mod='unlimitedproducttab'} </label>
+            <div class="col-lg-9 input-group col-lg-3 ">
+                <span class="switch prestashop-switch fixed-width-lg">
+                    <input type="radio" name="active" id="active_on" value="1" checked="checked">
+                    <label for="active_on" class="radioCheck">
+                        {*<i class="icon-check-sign text-success"></i>*}
+                        {l s='Yes' mod='unlimitedproducttab'}
+                    </label>
+                    <input type="radio" name="active" id="active_off" value="0">
+                    <label for="active_off" class="radioCheck">
+                        {*<i class="icon-ban-circle text-danger"></i>*}
+                        {l s='No' mod='unlimitedproducttab'}
+                    </label>
+                    <a class="slide-button btn btn-default"></a>
+                </span>
+            </div>
+        </div>
+        <div class="form-group ">                                   
+            <label class="control-label col-lg-3 ">{l s='Using' mod='unlimitedproducttab'}:</label>
+                <div class="col-lg-9">
+                    <div class="radio">
+                        <label><input onclick="showEditer()" type="radio" name="choose_using" id="active_on" value="all-product" >{l s='All products' mod='unlimitedproducttab'}</label>
+                    </div>
+                    <div class="radio">
+                        <label><input onclick="hideEditer()" type="radio" name="choose_using" id="active_on" value="config-tab" checked="checked">{l s='Config products' mod='unlimitedproducttab'}</label>
+                    </div>
+                </div>  
+        </div>                  
+        <div class="form-group display hide_tab showeditortype" style= "display:none;">
+            <label class="control-label col-lg-3 ">{l s='Content' mod='unlimitedproducttab'}:</label>
+            <div class="col-lg-9 " style="width: 50%;">
+                <div class="lang {$iso_default_language|escape:'htmlall':'UTF-8'}"  data-iso-default="{$iso_default_language|escape:'htmlall':'UTF-8'}">
+                   {foreach from=$arr_language key =key_lang item=language}
+                        <div class="language_{$language.iso_code|escape:'htmlall':'UTF-8'} iso_code" data-iso="{$language.iso_code|escape:'htmlall':'UTF-8'}" style="display:{if $id_default_language == $language.id_lang}block;{else}none;{/if}" >
+                             <textarea id="editor_pdf_{$language.iso_code|escape:'htmlall':'UTF-8'}" class="rte" name="editor_pdf_{$language.iso_code|escape:'htmlall':'UTF-8'}">
+                             </textarea>
+                        </div>
+                   {/foreach}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="col-lg-1">
+                    <button type="button" class="btn btn-default dropdown-toggle language_view iso_code_now" data-toggle="dropdown" tabindex="-1" data-iso-choose="{$iso_default_language|escape:'htmlall':'UTF-8'}" >
+                        {$iso_default_language|escape:'htmlall':'UTF-8'}
+                        <span class="caret"></span>
+                    </button>
+					<ul class="dropdown-menu">
+                        {foreach from=$arr_language key=key_lang item=language}
+                            <li>
+                                <a  href="javascript:void(0);" onclick="baHideOtherLanguage('{$language.id_lang|escape:'htmlall':'UTF-8'}','{$language.iso_code|escape:'htmlall':'UTF-8'}')">{$language.name|escape:'htmlall':'UTF-8'}</a>
+                            </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+        </div>              
+        <div class="form-group display hide_tab  showyoutubetype" style="display:none;" >
+            <label class="control-label col-lg-3 ">{l s='Link Youtube' mod='unlimitedproducttab'}:</label>
+            <div class="col-lg-9">
+                <input type="text" name="linkyoutube"  value="" style="width:200px;">
+            </div>
+            {*<label class="control-label col-lg-3 ">{l s=' ' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9 " style = "float: left;"><p class="help-block">{l s='Input link Youtube' mod='unlimitedproducttab'}</p></div>*}
+        </div>
+        <div class="form-group display hide_tab showyoutubetype" style="display:none;">
+            <label class="control-label col-lg-3 ">{l s='Width:' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9"  style="width:100px;">
+                <input type="text" name="widthyoutube" value="" />
+            </div>
+			<label class="control-label" ">{l s='px' mod='unlimitedproducttab'}</label>
+        </div>
+        <div class="form-group display hide_tab showyoutubetype" style="display:none;">
+            <label class="control-label col-lg-3 ">{l s='Height:' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9" style="width:100px;">
+                <input type="text" name="heightyoutube" value="" />
+            </div>
+			<label class="control-label ">{l s='px' mod='unlimitedproducttab'}</label>
+        </div>
+        <div class="form-group display  hide_tab showmapstype" style="display:none;" >
+            <label class="control-label col-lg-3 ">Address : </label> 
+            <div class="col-lg-9">
+                <input name= "add" id="addresspicker_map" />
+            </div>
+        </div>      
+        <div class="form-group display hide_tab showmapstype" style="display:none;">
+            <label class="control-label col-lg-3 ">{l s=' ' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9">
+                <div class="map-responsive">
+                    <div  id="map" style="width:560px;height:315px;border: 1px solid #DDD;"></div>
+                </div>
+            </div>
+            <label class="control-label col-lg-3 ">{l s=' ' mod='unlimitedproducttab'}</label>
+            
+        </div>
+        <div class="form-group display hide_tab showmapstype" style="display:none;">
+            <label class="control-label col-lg-3 ">{l s='Width:' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9"  style="width:100px;">
+                <input type="text" name="widthmaps" value="" />
+            </div>
+			<label class="control-label">{l s='px' mod='unlimitedproducttab'}</label>
+        </div>
+        <div class="form-group display hide_tab showmapstype" style="display:none;">
+            <label class="control-label col-lg-3 ">{l s='Height:' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9" style="width:100px;">
+                <input type="text" name="heightmaps" value="" />
+            </div>
+			<label class="control-label" ">{l s='px' mod='unlimitedproducttab'}</label>
+        </div>
+        <div class="form-group display"  style="display:none;" >
+            <label  class="control-label col-lg-3 ">Lat:</label>
+            <div class="col-lg-3"><input name = "lat" id="lat" /></div> <br/>
+        </div>
+        <div class="form-group display"  style="display:none;" >
+            <label  class="control-label col-lg-3 ">Lng:</label>
+            <div class="col-lg-3"><input name = "lng"id="lng" /></div>
+        </div>
+        <div class="form-group display hide_tab showvimeotype" style="display:none;" >
+            <label class="control-label col-lg-3 ">{l s='Link Vimeo:' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9">
+                <textarea style="width:100%;"  cols="10" rows="10" name="linkvimeo"></textarea>
+            </div>  
+        </div>
+        <div class="form-group display hide_tab showvimeotype" style="display:none;">
+            <label class="control-label col-lg-3 ">{l s='Width:' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9"  style="width:100px;">
+                <input type="text" name="widthvimeo" value="" />
+            </div>
+			<label class="control-label" ">{l s='px' mod='unlimitedproducttab'}</label>
+        </div>
+        <div class="form-group display hide_tab showvimeotype" style="display:none;">
+            <label class="control-label col-lg-3 ">{l s='Height:' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9" style="width:100px;">
+                <input type="text" name="heightvimeo" value="" />
+            </div>
+			<label class="control-label" ">{l s='px' mod='unlimitedproducttab'}</label>
+        </div>
+        
+		<div class="form-group display showproduct" style="display:none;">
+			<label class="control-label col-lg-3 ">{l s='Show Type' mod='unlimitedproducttab'}</label>
+			<div class="col-lg-9" style="width:140px;">
+				<select class="selectproduct" name= "selectproduct" onchange="changeproduct(this.value)">
+					<option value="newproduct" selected="selected" >{l s='New Product' mod='unlimitedproducttab'}</option>
+					<option value="popular">{l s='Popular' mod='unlimitedproducttab'}</option>
+					<option value="bestseller">{l s='Best Sales' mod='unlimitedproducttab'}</option>
+					<option value="special">{l s='Special' mod='unlimitedproducttab'}</option>
+					<option value="manual">{l s='Manual' mod='unlimitedproducttab'}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group display showproduct hidemanual" style="display:none;">
+            <label class="control-label col-lg-3 ">{l s='Count' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9" style="width:100px;">
+                <input type="text" name="countproduct" value="" />
+            </div>
+        </div>
+		<div class="form-group display showproduct hidemanual" style="display:none;">        
+            <label class="control-label col-lg-3">{l s='Same Category:' mod='unlimitedproducttab'} </label>
+            <div class="col-lg-9 input-group col-lg-3 ">
+                <span class="switch prestashop-switch fixed-width-lg">
+                    <input type="radio" name="active_product" id="active_on_product" value="1" checked="checked">
+                    <label for="active_on_product" class="radioCheck">
+                        {l s='Yes' mod='unlimitedproducttab'}
+                    </label>
+                    <input type="radio" name="active_product" id="active_off_product" value="0">
+                    <label for="active_off_product" class="radioCheck">
+                        {l s='No' mod='unlimitedproducttab'}
+                    </label>
+                    <a class="slide-button btn btn-default"></a>
+                </span>
+            </div>
+        </div>
+		<div class="form-group display  manual"  style="display:none;">
+            <label class="control-label col-lg-3 ">{l s='Id Product' mod='unlimitedproducttab'}</label>
+            <div class="col-lg-9" style="width:50%">
+                <input type="text" name="manualID" value="" />
+            </div>
+        </div>
+        <!-- script -->
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-default pull-right" name="unlimited-savestay-tab"><i class="process-icon-save"></i> {l s='Save & Stay' mod='unlimitedproducttab'}</button>
+            <button type="submit" class="btn btn-default pull-right" name="unlimited-save-tab"><i class="process-icon-save"></i>{l s='Save' mod='unlimitedproducttab'} </button>
+            <a id="desc-configuration-cancel" class="btn btn-default" href="index.php?controller=AdminModules&amp;configure={$name|escape:'htmlall':'UTF-8'}&amp;cancel&amp;token={$token|escape:'htmlall':'UTF-8'}">
+                <i class="process-icon-cancel "></i> <span>{l s='Cancel' mod='unlimitedproducttab'}</span>
+            </a>            
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    function baHideOtherLanguage(id_lang, iso_lang){
+        $(".language_view").html(iso_lang+' <span class="caret"></span>');
+        $(".lang>div").css("display","none");
+        $(".lang>div.language_"+iso_lang).css("display","block");
+        $("#iso_code_now").attr("data-iso-choose",iso_lang);
+    }
+	function HideOtherLanguageTitle(id_lang, iso_lang){
+        $(".language_title").html(iso_lang+' <span class="caret"></span>');
+        $(".lang_title>div").css("display","none");
+        $(".lang_title>div.language_"+iso_lang).css("display","block");
+        $(".iso_code_title").attr("data-iso-choose",iso_lang);
+    }
+</script>
+<script type="text/javascript">
+    $(function() {
+        var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
+        regionBias: 'fr',
+        language: 'fr',
+        updateCallback: showCallback,
+        mapOptions: {
+        zoom: 6,
+        center: new google.maps.LatLng(46, 2),
+        scrollwheel: false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      },
+      elements: {
+        map:      '#map',
+        lat:      '#lat',
+        lng:      '#lng',
+        street_number: '#street_number',
+        route: '#route',
+        locality: '#locality',
+        sublocality: '#sublocality',
+        administrative_area_level_3: '#administrative_area_level_3',
+        administrative_area_level_2: '#administrative_area_level_2',
+        administrative_area_level_1: '#administrative_area_level_1',
+        country:  '#country',
+        postal_code: '#postal_code',
+        type:    '#type'
+      }
+    });
+
+    var gmarker = addresspickerMap.addresspicker( 'marker');
+    gmarker.setVisible(true);
+    addresspickerMap.addresspicker( 'updatePosition');
+
+    $('#reverseGeocode').change(function(){
+      $('#addresspicker_map').addresspicker('option', 'reverseGeocode', ($(this).val() === 'true'));
+    });
+
+    function showCallback(geocodeResult, parsedGeocodeResult){
+      $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
+    }
+    // Update zoom field
+    var map = $('#addresspicker_map').addresspicker('map');
+    google.maps.event.addListener(map, 'idle', function(){
+      $('#zoom').val(map.getZoom());
+    });
+
+  });
+  </script>
+<script type="text/javascript">
+var val1 = '';
+//var checkselected = $('.selecttype').val();
+var checkedradio = $('[name="choose_using"]:radio:checked').val();
+    function hideEditer(){
+        jQuery(".display").hide();
+        return checkedradio = $('[name="choose_using"]:radio:checked').val();
+    }
+    function showEditer(){
+        if(val1 == 'editor'){
+            jQuery(".show"+val1+"type").show();
+            jQuery(".showyoutubetype").hide();
+            jQuery(".showmapstype").hide();
+            jQuery(".showvimeotype").hide();
+            jQuery(".showproduct").hide();
+        }
+        if(val1 == 'youtube'){
+            jQuery(".show"+val1+"type").show();
+            jQuery(".showmapstype").hide();
+            jQuery(".showeditortype").hide();
+            jQuery(".showvimeotype").hide();
+			jQuery(".showproduct").hide();
+        }
+        if(val1 =='maps'){
+            jQuery(".show"+val1+"type").show();
+            jQuery(".showyoutubetype").hide();
+            jQuery(".showeditortype").hide();
+            jQuery(".showvimeotype").hide();
+			jQuery(".showproduct").hide();
+        }
+        if(val1 == 'vimeo'){
+            jQuery(".show"+val1+"type").show();
+            jQuery(".showyoutubetype").hide();
+            jQuery(".showeditortype").hide();
+            jQuery(".showmapstype").hide();
+			jQuery(".showproduct").hide();
+        }
+		if(val1 == 'product'){
+            jQuery(".show"+val1).show();
+            jQuery(".showyoutubetype").hide();
+            jQuery(".showeditortype").hide();
+            jQuery(".showmapstype").hide();
+			jQuery(".showvimeotype").hide();
+        }
+		if(val1 == 'description' || val1 == 'datasheet' || val1 == 'review' || val1 == 'tag') {
+			jQuery(".display").hide();
+		}
+        if(val1==''){
+            jQuery(".showeditortype").show();
+            jQuery(".showyoutubetype").hide();
+            jQuery(".showmapstype").hide();
+            jQuery(".showvimeotype").hide();
+        }
+         return checkedradio = $('[name="choose_using"]:radio').val(); 
+    }
+    function changeediter(val){
+        if(checkedradio =='all-product'){
+            if(val == 'editor'){
+                jQuery(".show"+val+"type").show();
+                jQuery(".showyoutubetype").hide();
+                jQuery(".showmapstype").hide();
+                jQuery(".showvimeotype").hide();
+                jQuery(".showproduct").hide();
+                val1 = val;
+            }
+            if(val == 'youtube'){
+                jQuery(".show"+val+"type").show();
+                jQuery(".showmapstype").hide();
+                jQuery(".showeditortype").hide();
+                jQuery(".showvimeotype").hide();
+                jQuery(".showproduct").hide();
+                val1 = val;
+            }
+            if(val == 'maps'){
+                jQuery(".show"+val+"type").show();
+                jQuery(".showyoutubetype").hide();
+                jQuery(".showeditortype").hide();
+                jQuery(".showvimeotype").hide();
+                jQuery(".showproduct").hide();
+                val1 = val;
+            }
+            if(val == 'vimeo'){
+                jQuery(".show"+val+"type").show();
+                jQuery(".showyoutubetype").hide();
+                jQuery(".showeditortype").hide();
+                jQuery(".showmapstype").hide();
+                jQuery(".showproduct").hide();
+                val1 = val;
+            }
+			if(val == 'description'|| val == 'datasheet' || val == 'review' || val == 'tag') {
+				jQuery(".display").hide();
+				val1 = val;
+			}
+			if(val == 'product') {
+				jQuery(".showproduct").show();
+				jQuery(".hide_tab").hide();
+				val1 = val;
+			}
+        }else{
+            val1 = val;
+        }
+    }
+    function changeproduct(value) {
+		if (value == 'manual') {
+			jQuery(".manual").show();
+			jQuery(".hidemanual").hide();
+		} else {
+			jQuery(".hidemanual").show();
+			jQuery(".manual").hide();
+		}
+	}
+</script>

@@ -1,0 +1,9 @@
+.product-image-container {
+	position: absolute;
+	left: 0;
+	bottom: -1px;
+	width: 100%;
+	background: url(../img/price-container-bg.png);
+	padding: 9px 0;
+	display: none; 
+}
